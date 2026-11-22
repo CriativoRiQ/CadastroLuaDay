@@ -271,6 +271,11 @@ footer p.ev{color:var(--l3);margin-top:2px;font-size:12px}
 .qredit .inp{height:50px}
 .qredit .inp input{font-size:16px}
 .qredit .btn{height:50px;margin-top:10px}
+.lform .inp{margin-top:10px}.lform .inp input{font-size:16px}.lform .btn{margin-top:6px}.lform .err{text-align:center;padding:0}
+#acc{display:none}.fb #acc{display:block}
+a.setrow{color:var(--l1)}.setrow .v.g{color:var(--gold)}.setrow.red span{color:var(--red)}
+.live{display:inline-flex;align-items:center;gap:6px}.live:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(48,209,88,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(48,209,88,0)}100%{box-shadow:0 0 0 0 rgba(48,209,88,0)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -361,9 +366,18 @@ footer p.ev{color:var(--l3);margin-top:2px;font-size:12px}
     </div>
     <div class="tools">
       <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.5-4.5"/></svg><input id="q" type="search" placeholder="Buscar" enterkeyhint="search"></div>
-      <button class="tint" id="csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg>Copiar planilha</button>
+      <button class="tint" id="csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg>Baixar planilha</button>
     </div>
     <div class="group" id="list"></div>
+    <div id="acc">
+      <div class="group-h">Equipe e backup</div>
+      <div class="group">
+        <div class="setrow"><span>Conectada como</span><b class="v" id="accEmail">—</b></div>
+        <a class="setrow" href="https://docs.google.com/spreadsheets/d/1RTqloTCUffzV9soCXMgT_EiPOq924IAyd3FWXNofsiM/edit" target="_blank" rel="noopener"><span>Abrir planilha de backup</span><b class="v g">Abrir ›</b></a>
+        <div class="setrow" id="resync"><span>Reenviar tudo para a planilha</span><b class="v g">Enviar</b></div>
+        <div class="setrow red" id="logout"><span>Sair desta conta</span></div>
+      </div>
+    </div>
     <div class="sponsor-card"><span class="riq" role="img" aria-label="RiQ Tecnologias Digitais"></span><div><small>Patrocinador oficial</small><b>RiQ Tecnologias Digitais</b></div></div>
   </section>
 
@@ -421,6 +435,17 @@ footer p.ev{color:var(--l3);margin-top:2px;font-size:12px}
     <button class="txt" data-k="x">Cancelar</button><button data-k="0">0</button><button class="txt" data-k="d" aria-label="Apagar"><svg viewBox="0 0 28 22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M9 2h15a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H9l-7-9Z"/><path d="m13 7 8 8M21 7l-8 8"/></svg></button>
   </div>
 </div></div>
+<div class="sheet" id="login"><div class="panel">
+  <div class="grab"></div>
+  <h3>Entrar na equipe</h3><p>Use o login que a organização criou para você</p>
+  <form id="loginForm" class="lform" novalidate>
+    <div class="inp"><input id="lEmail" type="email" inputmode="email" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="E-mail (ex.: atendente1@luaday.com)"></div>
+    <div class="inp"><input id="lPass" type="password" autocomplete="current-password" placeholder="Senha"></div>
+    <div class="err" id="lErr"></div>
+    <button class="btn" type="submit" id="lGo"><span>Entrar</span></button>
+  </form>
+  <button class="tint" id="lCancel" style="width:100%;margin-top:10px;background:var(--fill2);color:var(--l1)">Cancelar</button>
+</div></div>
 <div class="sheet" id="csvSheet"><div class="panel">
   <div class="grab"></div>
   <h3>Planilha</h3><p>Toque e segure para selecionar tudo e copiar</p>
@@ -429,7 +454,7 @@ footer p.ev{color:var(--l3);margin-top:2px;font-size:12px}
 </div></div>
 <div class="island" id="island"><i><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m3 7.5 2.6 2.6L11 4.5"/></svg></i><span></span></div>
 </template>
-<script type="application/json" id="state">{"leads":[{"n":1,"nome":"Henrique Mota","tel":"84991346632","ig":"henrimota4","t":1795312710524}],"winners":[],"pin":"2121"}</script>
+<script type="application/json" id="state">{"leads":[],"winners":[],"pin":"2121"}</script>
 <script id="app">
 (function(){
 var CSS=document.getElementById('css').textContent;
@@ -497,7 +522,7 @@ var ss={get:function(k){try{return sessionStorage.getItem(k)}catch(e){return nul
 var LS='luaday-sorteio-v1';
 var mode='pending',art=null;
 var artP=(window.claude&&window.claude.use)?Promise.resolve(window.claude.use('artifact')).catch(function(){return null}):Promise.resolve(null);
-artP.then(function(a){art=a;if(!a)goLocal()});
+var fbReady=null;
 function haptic(ms){try{if(navigator.vibrate)navigator.vibrate(ms||8)}catch(e){}}
 function goLocal(){
   if(mode==='local')return;mode='local';
@@ -529,6 +554,102 @@ function rnd(n){var a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n
 var ICONS={ok:'<path d="m3 7.5 2.6 2.6L11 4.5"/>',info:'<path d="M7 3.5v4.5M7 10.4v.1"/>',err:'<path d="M4 4l6 6M10 4l-6 6"/>'};
 var tt;function toast(t,type){type=type||'ok';var e=$('#island');e.className='island '+(type==='ok'?'':type);e.querySelector('svg').innerHTML=ICONS[type];e.querySelector('span').textContent=t;void e.offsetWidth;e.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){e.classList.remove('on')},3400);if(type==='err')haptic([10,40,10])}
 
+
+/* ===== Firebase (banco de dados em tempo real) ===== */
+var FBCFG={apiKey:"AIzaSyAbXa4XYNFQxloUJTG5HDPuD4KyTJdlTOY",authDomain:"sorteio-luaday.firebaseapp.com",projectId:"sorteio-luaday",storageBucket:"sorteio-luaday.firebasestorage.app",messagingSenderId:"880774720449",appId:"1:880774720449:web:f07ce154a9d9269c2d5d40"};
+var BACKUP_URL='https://script.google.com/macros/s/AKfycbx5Qj7XdDctoq4BjaGXqjgo7MLrHKO2L1mhYOqxQpL2VbpUScoT_CkwhnfeDbCsDHCFIg/exec';
+var EQ_DOM='@luaday.com';
+var FB=null,fbUser=null,fbUnsub=[];
+function inClaude(){return !!(window.claude&&window.claude.use)}
+function fbLoad(){
+  var b='https://www.gstatic.com/firebasejs/10.12.2/';
+  return Promise.all([import(b+'firebase-app.js'),import(b+'firebase-firestore.js'),import(b+'firebase-auth.js')]).then(function(m){
+    var app=m[0].initializeApp(FBCFG);
+    FB={F:m[1],A:m[2],db:m[1].getFirestore(app),auth:m[2].getAuth(app)};
+    return FB;
+  });
+}
+function fbStop(){fbUnsub.forEach(function(u){try{u()}catch(e){}});fbUnsub=[]}
+function fbWatch(){
+  var F=FB.F,db=FB.db;fbStop();
+  fbUnsub.push(F.onSnapshot(F.query(F.collection(db,'leads'),F.orderBy('n')),function(s){
+    state.leads=s.docs.map(function(d){var x=d.data();return{n:x.n,nome:x.nome,tel:x.tel,ig:x.ig||'',t:x.t&&x.t.toMillis?x.t.toMillis():Date.now()}});
+    renderLeads();renderSorteio();
+  },fbDenied));
+  fbUnsub.push(F.onSnapshot(F.query(F.collection(db,'ganhadoras'),F.orderBy('t')),function(s){
+    state.winners=s.docs.map(function(d){var x=d.data();return{id:d.id,n:x.n,nome:x.nome,ig:x.ig||'',t:x.t}});
+    renderLeads();renderSorteio();
+  },fbDenied));
+}
+function fbDenied(e){
+  if(e&&e.code==='permission-denied'){toast('Este login não faz parte da equipe do sorteio.','err');FB.A.signOut(FB.auth)}
+  else toast('Sem conexão com o banco de dados. Tentando de novo…','info');
+}
+function fbStart(){
+  mode='fb';document.body.classList.add('fb');state.leads=[];state.winners=[];renderLeads();renderSorteio();
+  var F=FB.F;
+  F.onSnapshot(F.doc(FB.db,'config','geral'),function(d){var x=d.exists()?d.data():{};state.qrUrl=x.qrUrl||'';},function(){});
+  FB.A.onAuthStateChanged(FB.auth,function(u){
+    fbUser=u;$('#accEmail').textContent=u?u.email:'—';
+    var b=$('#badge');
+    if(u){b.innerHTML='<span class="live">Ao vivo · lista sincronizada com a equipe</span>';b.classList.add('show');fbWatch()}
+    else{b.classList.remove('show');fbStop();state.leads=[];state.winners=[];renderLeads();renderSorteio();if(current!=='participar'){unlocked=false;document.body.classList.remove('unlocked');show('participar')}}
+  });
+  backupFlush();
+}
+function fbAddLead(lead){
+  var F=FB.F,db=FB.db,cref=F.doc(db,'meta','contador'),lref=F.doc(db,'leads',lead.tel);
+  return F.runTransaction(db,function(tx){
+    return tx.get(cref).then(function(c){
+      var n=(c.exists()?(c.data().n||0):0)+1;
+      tx.set(cref,{n:n,tel:lead.tel});
+      tx.set(lref,{n:n,nome:lead.nome,tel:lead.tel,ig:lead.ig,t:F.serverTimestamp()});
+      return n;
+    });
+  }).then(function(n){
+    lead.n=n;lead.t=Date.now();backup(lead);return{ok:true,lead:lead};
+  },function(e){
+    if(e&&e.code==='permission-denied')return{ok:false,dupRemote:true};
+    return{ok:false,err:String(e&&e.code||e)};
+  });
+}
+/* backup na planilha do Google */
+var BQ='luaday-backup-fila';
+function bqGet(){try{return JSON.parse(localStorage.getItem(BQ)||'[]')}catch(e){return[]}}
+function bqSet(a){try{localStorage.setItem(BQ,JSON.stringify(a))}catch(e){}}
+function backupSend(l){
+  if(!BACKUP_URL||BACKUP_URL.indexOf('http')!==0)return Promise.reject('sem url');
+  return fetch(BACKUP_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({n:l.n,nome:l.nome,tel:l.tel,ig:l.ig,t:l.t,por:fbUser?fbUser.email:'QR code'})});
+}
+function backup(l){backupSend(l).catch(function(){var q=bqGet();q.push(l);bqSet(q)})}
+function backupFlush(){var q=bqGet();if(!q.length)return;bqSet([]);q.forEach(backup)}
+function openLogin(cb){
+  loginCb=cb;$('#lErr').textContent='';$('#lPass').value='';openSheet('#login');
+  setTimeout(function(){try{($('#lEmail').value?$('#lPass'):$('#lEmail')).focus()}catch(e){}},350);
+}
+var loginCb=null;
+$('#lCancel').onclick=function(){closeSheet('#login');loginCb=null};
+$('#loginForm').addEventListener('submit',function(e){
+  e.preventDefault();var em=$('#lEmail').value.trim().toLowerCase(),pw=$('#lPass').value;
+  if(em&&em.indexOf('@')<0)em+=EQ_DOM;
+  if(!em||!pw){$('#lErr').textContent='Digite e-mail e senha.';return}
+  var b=$('#lGo');b.disabled=true;b.querySelector('span').innerHTML='<i class="spin"></i>';
+  FB.A.signInWithEmailAndPassword(FB.auth,em,pw).then(function(){
+    b.disabled=false;b.querySelector('span').textContent='Entrar';closeSheet('#login');haptic(10);toast('Bem-vinda, '+em.split('@')[0]);
+    var cb=loginCb;loginCb=null;if(cb)setTimeout(cb,180);
+  },function(er){
+    b.disabled=false;b.querySelector('span').textContent='Entrar';haptic([12,50,12]);
+    var c=er&&er.code||'';
+    $('#lErr').textContent=/invalid|wrong-password|user-not-found/.test(c)?'E-mail ou senha incorretos.':/too-many/.test(c)?'Muitas tentativas. Espere um pouco e tente de novo.':/network/.test(c)?'Sem internet. Verifique a conexão.':'Não foi possível entrar ('+c+').';
+  });
+});
+$('#logout').onclick=function(){askPin('Sair da conta','Digite o código para desconectar este aparelho',function(){FB.A.signOut(FB.auth).then(function(){toast('Conta desconectada')})})};
+$('#resync').onclick=function(){
+  if(!state.leads.length){toast('Ainda não há inscrições.','info');return}
+  var arr=state.leads.slice(),i=0;toast('Enviando '+arr.length+' inscrições para a planilha…','info');
+  (function next(){if(i>=arr.length){toast('Planilha atualizada ('+arr.length+' inscrições)');return}backupSend(arr[i++]).then(function(){setTimeout(next,250)},function(){toast('Falha ao enviar. Verifique a internet.','err')})})();
+};
+
 /* barra superior ao rolar */
 function onScroll(){$('#bar').classList.toggle('solid',(window.scrollY||document.documentElement.scrollTop)>8)}
 window.addEventListener('scroll',onScroll,{passive:true});onScroll();
@@ -537,6 +658,7 @@ window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 var unlocked=false,pendingView=null,current='participar',pinCb=null;
 function moveHL(){var on=$('#tabbar button.on'),h=$('#tabbar .hl');if(!on)return;h.style.left=on.offsetLeft+'px';h.style.width=on.offsetWidth+'px'}
 function show(v,skipHash){
+  if(v!=='participar'&&!unlocked&&mode==='fb'&&!fbUser){pendingView=v;openLogin(function(){unlocked=true;document.body.classList.add('unlocked');show(pendingView||'leads')});return}
   if(v!=='participar'&&!unlocked){pendingView=v;askPin('Área da organização','Digite o código para ver os leads e sortear',function(){unlocked=true;document.body.classList.add('unlocked');show(pendingView||'leads')});return}
   if(v==='participar'&&unlocked){unlocked=false;document.body.classList.remove('unlocked');editing=false;$('#edit').textContent='Editar';$('#edit').style.fontWeight=''}
   if(v!==current){haptic(6)}
@@ -605,14 +727,16 @@ function submit(){
   try{document.activeElement.blur()}catch(e){}
   var d=digits(fT.value);
   ss.set('luaday-draft',JSON.stringify({nome:fN.value,tel:fT.value,ig:fI.value}));ss.set('luaday-last',d);
-  artP.then(function(){
+  (mode==='fb'?Promise.resolve():artP).then(function(){
     var ex=state.leads.filter(function(l){return l.tel===d})[0];if(ex)return{ok:true,lead:ex,dup:true};
+    if(mode==='fb')return fbAddLead({nome:fN.value.trim(),tel:d,ig:fI.value.trim()});
     var lead={n:maxN()+1,nome:fN.value.trim(),tel:d,ig:fI.value.trim(),t:Date.now()};
     var next=clone(state);next.leads.push(lead);
     return save(next).then(function(r){r.lead=lead;return r});
   }).then(function(r){
     busy=false;btn.disabled=false;btn.querySelector('span').textContent='Gerar meu número da sorte';
     if(r.ok){ss.del('luaday-draft');showTicket(r.lead,!!r.dup)}
+    else if(r.dupRemote){ss.del('luaday-draft');go(1);setTimeout(function(){err('Este telefone já está inscrito no sorteio. Se não lembrar seu número, fale com a organização.')},450)}
     else if(r.conflict)toast('Muitas inscrições ao mesmo tempo. Toque de novo.','info');
     else toast('Não foi possível salvar agora. Tente de novo.','err');
   });
@@ -663,14 +787,17 @@ $('#list').addEventListener('click',function(e){
     var n0=+row.dataset.n;askPin('Confirmar exclusão','Digite o código para apagar a inscrição nº '+pad(n0),function(){removeLead(row,n0)});
   }
 });
-function removeLead(row,n){{
+function removeLead(row,n){
+  if(mode==='fb'){var L=state.leads.filter(function(l){return l.n===n})[0];if(!L)return;row.style.transition='opacity .3s,transform .3s';row.style.opacity='.4';
+    FB.F.deleteDoc(FB.F.doc(FB.db,'leads',L.tel)).then(function(){toast('Inscrição nº '+pad(n)+' removida')},function(){row.style.opacity='';toast('Não foi possível remover agora.','err')});return}
+  {
     var next=clone(state);next.leads=next.leads.filter(function(l){return l.n!==n});
     row.style.transition='opacity .3s,transform .3s';row.style.opacity='.4';
     save(next).then(function(r){if(r.ok){renderLeads();renderSorteio();toast('Inscrição nº '+pad(n)+' removida')}else{row.style.opacity='';toast('Não foi possível remover agora.','err')}});
   }
 }
-function csv(){var rows=[['Numero','Nome','Telefone','Instagram','Data']];state.leads.slice().sort(function(a,b){return a.n-b.n}).forEach(function(l){rows.push([pad(l.n),l.nome,maskTel(l.tel),l.ig?'@'+l.ig:'',fmtT(l.t)])});return rows.map(function(r){return r.map(function(c){c=String(c);return /[",;\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')}).join('\n')}
-$('#csv').onclick=function(){var t=csv(),p;try{p=navigator.clipboard.writeText(t)}catch(e){p=Promise.reject(e)}Promise.resolve(p).then(function(){toast('Planilha copiada — cole no Excel ou Sheets')},function(){$('#csvTxt').value=t;openSheet('#csvSheet');setTimeout(function(){$('#csvTxt').select()},300)})};
+function csv(){var rows=[['Numero','Nome','Telefone','Instagram','Data']];state.leads.slice().sort(function(a,b){return a.n-b.n}).forEach(function(l){rows.push([pad(l.n),l.nome,maskTel(l.tel),l.ig?'@'+l.ig:'',fmtT(l.t)])});return rows.map(function(r){return r.map(function(c){c=String(c);return /[",;\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(';')}).join('\r\n')}
+$('#csv').onclick=function(){var t=csv(),p;if(!inClaude()){try{var bl=new Blob(['\ufeff'+t],{type:'text/csv;charset=utf-8'}),a=document.createElement('a'),dt=new Date();a.href=URL.createObjectURL(bl);a.download='sorteio-luaday-leads-'+dt.toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);toast('Planilha baixada ('+state.leads.length+' inscrições)');return}catch(e){}}try{p=navigator.clipboard.writeText(t)}catch(e){p=Promise.reject(e)}Promise.resolve(p).then(function(){toast('Planilha copiada — cole no Excel ou Sheets')},function(){$('#csvTxt').value=t;openSheet('#csvSheet');setTimeout(function(){$('#csvTxt').select()},300)})};
 $('#csvClose').onclick=function(){closeSheet('#csvSheet')};
 
 /* sorteio */
@@ -700,6 +827,7 @@ $('#save').onclick=function(){
   if(!cur)return;askPin('Confirmar ganhadora','Digite o código para registrar '+cur.nome,registerWinner);
 };
 function registerWinner(){
+  if(mode==='fb'){$('#save').textContent='Salvando…';FB.F.addDoc(FB.F.collection(FB.db,'ganhadoras'),{n:cur.n,nome:cur.nome,ig:cur.ig||'',tel:cur.tel,t:Date.now(),por:fbUser?fbUser.email:''}).then(function(){$('#save').textContent='Registrar ganhadora';$('#save').style.display='none';toast(cur.nome+' registrada como ganhadora')},function(){$('#save').textContent='Registrar ganhadora';toast('Não foi possível registrar agora.','err')});return}
   var next=clone(state);next.winners.push({n:cur.n,nome:cur.nome,ig:cur.ig||'',t:Date.now()});
   $('#save').textContent='Salvando…';
   save(next).then(function(r){$('#save').textContent='Registrar ganhadora';if(r.ok){$('#save').style.display='none';renderSorteio();renderLeads();toast(cur.nome+' registrada como ganhadora')}else toast(r.conflict?'A página foi atualizada — registre de novo.':'Não foi possível registrar agora.',r.conflict?'info':'err')});
@@ -719,7 +847,7 @@ $('#qrCopy').onclick=function(){var u=qrLink(),p;try{p=navigator.clipboard.write
 $('#qrSave').onclick=function(){var u=$('#qrIn').value.trim();if(u&&!/^https?:\/\//i.test(u))u='https://'+u;
   if(!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(u)){toast('Digite um link válido, ex.: https://seusite.com','err');return}
   closeSheet('#qrSheet');
-  askPin('Alterar link do QR code','Digite o código para salvar o novo link',function(){var next=clone(state);next.qrUrl=u;save(next).then(function(r){if(r.ok){toast('Link do QR code salvo');paintQR();setTimeout(function(){openSheet('#qrSheet')},200)}else toast('Não foi possível salvar agora.','err')})});
+  askPin('Alterar link do QR code','Digite o código para salvar o novo link',function(){if(mode==='fb'){FB.F.setDoc(FB.F.doc(FB.db,'config','geral'),{qrUrl:u},{merge:true}).then(function(){state.qrUrl=u;toast('Link do QR code salvo');paintQR();setTimeout(function(){openSheet('#qrSheet')},200)},function(){toast('Não foi possível salvar agora.','err')});return}var next=clone(state);next.qrUrl=u;save(next).then(function(r){if(r.ok){toast('Link do QR code salvo');paintQR();setTimeout(function(){openSheet('#qrSheet')},200)}else toast('Não foi possível salvar agora.','err')})});
 };
 
 /* partículas e confete */
@@ -733,6 +861,8 @@ for(var i=0;i<k;i++)C.push({x:cf.width/2+(Math.random()-.5)*cf.width*.3,y:cf.hei
 if(cRun)return;cRun=true;(function f(){cx.clearRect(0,0,cf.width,cf.height);C=C.filter(function(p){return p.l-->0&&p.y<cf.height+40});C.forEach(function(p){p.vy+=.45*dpr;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.globalAlpha=Math.min(1,p.l/40);cx.fillStyle=p.c;cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);cx.restore()});if(C.length)requestAnimationFrame(f);else{cRun=false;cx.clearRect(0,0,cf.width,cf.height)}})()}
 
 /* início */
+if(inClaude()){artP.then(function(a){art=a;if(!a)goLocal()})}
+else{fbLoad().then(fbStart,function(){toast('Sem conexão com o banco de dados — modo local.','err');artP.then(function(a){art=a;goLocal()})})}
 go(0,true);renderLeads();renderSorteio();
 var last=ss.get('luaday-last'),draft=null;try{draft=JSON.parse(ss.get('luaday-draft')||'null')}catch(e){}
 var mine=last&&state.leads.filter(function(l){return l.tel===last})[0];
